@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-leaf-light: #f1f8e9;
+  --color-leaf-medium: #558b2f;
+  --color-leaf-dark: #1b3a1b;
+  --color-turmeric: #ffb300;
+  --color-kumkum: #9a0007;
+  --color-ink: #0a1a0a;
+  --color-gold: #b8860b;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+  @apply bg-[var(--color-leaf-light)] text-[var(--color-ink)] font-sans min-h-screen;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30c0-10 10-10 10-20S30 0 30 0 20 0 20 10s10 10 10 20z' fill='%23558b2f' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+h1, h2, h3, h4 {
+  @apply font-serif tracking-tight;
+  color: var(--color-leaf-dark);
+}
+
+.banana-leaf-card {
+  @apply bg-white rounded-[3rem] border-l-[12px] border-[var(--color-leaf-dark)] shadow-[0_20px_60px_rgba(0,0,0,0.08)] overflow-hidden;
+  position: relative;
+}
+
+.banana-leaf-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, transparent 60%, rgba(27, 77, 27, 0.03) 60%);
+  pointer-events: none;
+}
+
+.tamil-btn {
+  @apply bg-[var(--color-leaf-dark)] text-white font-black rounded-2xl transition-all active:scale-95 hover:shadow-2xl hover:brightness-110 px-8 py-4 flex items-center justify-center gap-2;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.tamil-btn-outline {
+  @apply border-2 border-[var(--color-leaf-dark)] text-[var(--color-leaf-dark)] font-black rounded-2xl transition-all active:scale-95 hover:bg-[var(--color-leaf-dark)] hover:text-white px-8 py-4 flex items-center justify-center gap-2;
+}
+
+.kolam-pattern {
+  background-image: radial-gradient(circle, var(--color-leaf-medium) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* PDF Export Fixes */
+.pdf-export {
+  background-color: #f1f8e9 !important;
+  color: #0a1a0a !important;
+}
+
+.pdf-export * {
+  color-scheme: light !important;
+}
+
+.pdf-export .banana-leaf-card {
+  border-left-color: #1b3a1b !important;
+  box-shadow: none !important;
+  break-inside: avoid;
+}
+
+.pdf-export .tamil-btn, 
+.pdf-export .tamil-btn-outline {
+  display: none !important;
+}
+
+.input-field {
+  @apply w-full p-5 rounded-2xl bg-white border-2 border-[rgba(27,58,27,0.1)] outline-none focus:border-leaf-dark transition-all font-bold text-leaf-dark shadow-sm placeholder:text-[rgba(27,58,27,0.2)];
+}
+
+.label-text {
+  @apply text-[10px] font-black uppercase tracking-[0.2em] text-[rgba(27,58,27,0.7)] mb-2 block;
+}

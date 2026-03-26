@@ -28,6 +28,10 @@ export async function generateTamilMealPlan(profile: UserProfile) {
   const ai = getAI();
   const daysToGenerate = profile.duration === '30-day' ? 30 : 7;
   const prompt = `
+    STRICT RULE: Return ONLY a raw JSON object. 
+    Do not include any greetings, introductory text, or "வணக்கம்".
+    Everything must be inside the JSON structure.
+
     Generate a highly personalized ${daysToGenerate}-day meal plan for a person in Tamil Nadu, India.
     
     User Profile:
@@ -122,12 +126,19 @@ export async function generateTamilMealPlan(profile: UserProfile) {
     });
 
     const text = response.text;
-    if (!text) {
-      throw new Error("Empty response from AI");
+    if (!text) throw new Error("Empty response from AI");
+
+    // This finds the very first { and the very last } 
+    // It ignores any "வணக்கம்" or "Here is your plan" text outside the brackets
+    const jsonStart = text.indexOf('{');
+    const jsonEnd = text.lastIndexOf('}') + 1;
+    
+    if (jsonStart === -1 || jsonEnd === 0) {
+      console.error("Raw AI Response that failed:", text);
+      throw new Error("AI did not return a valid JSON object. Please try again.");
     }
 
-    // Clean up response text in case it's wrapped in markdown blocks
-    const cleanedText = text.replace(/```json\n?|\n?```/g, '').trim();
+    const cleanedText = text.substring(jsonStart, jsonEnd);
     return JSON.parse(cleanedText);
   } catch (error) {
     console.error("Gemini Service Error:", error);
